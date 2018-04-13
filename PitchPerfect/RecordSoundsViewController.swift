@@ -25,7 +25,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         // Hide navigation bar when app loads
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
-        recordingEnable(enabled: true)
+        updateRecordingUI(enabled: true)
         
     }
     
@@ -38,8 +38,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
 
     // MARK: Record Audio Button function
     @IBAction func recordAudio(_ sender: UIButton) {
-        recordingLabel.text = "Tap to finish recording"
-        recordingEnable(enabled: false)
+        
+        updateRecordingUI(enabled: false)
         
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let recordingName = "recordedVoice.wav"
@@ -59,25 +59,27 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     // MARK: Stop Recording Button function
     
     @IBAction func stopRecording(_ sender: UIButton) {
-        recordingEnable(enabled: true)
-        recordingLabel.text = "Tap to Record"
+        updateRecordingUI(enabled: true)
+        
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
         try! audioSession.setActive(false)
     }
     
-    // MARK: UI Configuration function for enabling/disabling the recording and stop buttons. When recordButton is enabled, stop recording button will be hidden, vice versa
+    // MARK: UI Configuration function for enabling/disabling the recording and stop buttons. When recordButton is enabled, stop recording button will be hidden, vice versa. Also, the recodingLabel will reflect the instructional messages accordingly
     
-    func recordingEnable(enabled: Bool) {
+    func updateRecordingUI(enabled: Bool) {
         if enabled {
             recordButton.isEnabled = true
             stopRecordingButton.isEnabled = false
             stopRecordingButton.isHidden = true
+            recordingLabel.text = "Tap to Record"
         } else {
             recordButton.isEnabled = false
             stopRecordingButton.isEnabled = true
             stopRecordingButton.isHidden = false
             recordButton.isHidden = true
+            recordingLabel.text = "Tap to finish recording"
             
         }
     }
