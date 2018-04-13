@@ -81,15 +81,30 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     // MARK: Audio Recorder delegate
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        
         if flag {
             
             // When audio finished recording, perform segue and send the assosciated recorder url
             performSegue(withIdentifier: "stopRecording", sender: audioRecorder.url)
+            
         } else {
             
             // Print below message if the recording process was unsuccessful
             print("recording was not successful")
+            
+            // create the alert
+            let alert = UIAlertController(title: "Sorry", message: "Recoding was not successful. Please try again.", preferredStyle: UIAlertControllerStyle.alert)
+            
+            // add an action (button)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+            
+            recordButton.isHidden = false
+            
         }
+        
     }
     
     // MARK: Prepare for segue -> Passing recorded audio URL
