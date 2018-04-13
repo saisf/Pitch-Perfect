@@ -69,19 +69,13 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     // MARK: UI Configuration function for enabling/disabling the recording and stop buttons. When recordButton is enabled, stop recording button will be hidden, vice versa. Also, the recodingLabel will reflect the instructional messages accordingly
     
     func updateRecordingUI(enabled: Bool) {
-        if enabled {
-            recordButton.isEnabled = true
-            stopRecordingButton.isEnabled = false
-            stopRecordingButton.isHidden = true
-            recordingLabel.text = "Tap to Record"
-        } else {
-            recordButton.isEnabled = false
-            stopRecordingButton.isEnabled = true
-            stopRecordingButton.isHidden = false
-            recordButton.isHidden = true
-            recordingLabel.text = "Tap to finish recording"
-            
-        }
+
+        recordButton.isEnabled = enabled
+        stopRecordingButton.isEnabled = !enabled
+        stopRecordingButton.isHidden = enabled
+        recordButton.isHidden = enabled
+        recordingLabel.text = enabled ? "Tap to Record": "Tap to finish recording"
+        
     }
     
     // MARK: Audio Recorder delegate
